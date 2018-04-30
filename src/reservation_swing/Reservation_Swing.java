@@ -11,7 +11,7 @@ public class Reservation_Swing {
 
     public static void main(String[] args) {
        Main call = new Main();
-       call.show();
+       call.setVisible(true);
     }
     
 }
