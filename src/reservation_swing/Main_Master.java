@@ -25,9 +25,8 @@ public class Main_Master extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         jScrollPane2.getViewport().setBackground(Color.white);
-//        this.setResizable(false);
         this.setDefaultCloseOperation(Main_Master.EXIT_ON_CLOSE);
-        this.setTitle("Main");
+        this.setTitle("PACO HOTEL SYSTEM");
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
    
@@ -60,7 +59,7 @@ public class Main_Master extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        Main_Table = new javax.swing.JTable();
         jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
@@ -79,11 +78,11 @@ public class Main_Master extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 add_reservationMouseClicked(evt);
             }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                add_reservationMouseEntered(evt);
-            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 add_reservationMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                add_reservationMouseEntered(evt);
             }
         });
 
@@ -98,7 +97,7 @@ public class Main_Master extends javax.swing.JFrame {
             .addGroup(add_reservationLayout.createSequentialGroup()
                 .addGap(63, 63, 63)
                 .addComponent(jLabel4)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         add_reservationLayout.setVerticalGroup(
             add_reservationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,7 +261,7 @@ public class Main_Master extends javax.swing.JFrame {
             .addComponent(payments, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(logout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_leftLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(31, Short.MAX_VALUE)
                 .addComponent(logo_image)
                 .addGap(23, 23, 23))
         );
@@ -309,23 +308,27 @@ public class Main_Master extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        Main_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Customer Code", "Room", "Date", "Duration"
+                "Customer Code", "Alias", "Date", "Duration/Hours", "Room #", "Room Type", "# of Visitors", "Extra Amenities"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        Main_Table.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(Main_Table);
+        if (Main_Table.getColumnModel().getColumnCount() > 0) {
+            Main_Table.getColumnModel().getColumn(3).setPreferredWidth(200);
+        }
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -333,8 +336,8 @@ public class Main_Master extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 939, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -353,18 +356,20 @@ public class Main_Master extends javax.swing.JFrame {
             top_layerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(top_layerLayout.createSequentialGroup()
                 .addComponent(panel_left, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(top_layerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panel_top, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(top_layerLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(top_layerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(top_layerLayout.createSequentialGroup()
-                                .addGap(383, 383, 383)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(50, Short.MAX_VALUE))))
+                            .addComponent(panel_top, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, top_layerLayout.createSequentialGroup()
+                                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, top_layerLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28))))
         );
         top_layerLayout.setVerticalGroup(
             top_layerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -376,22 +381,20 @@ public class Main_Master extends javax.swing.JFrame {
                 .addGroup(top_layerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1)
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(84, 84, 84))
+                .addGap(90, 90, 90))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(top_layer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 45, Short.MAX_VALUE))
+            .addComponent(top_layer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(top_layer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(top_layer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -399,7 +402,7 @@ public class Main_Master extends javax.swing.JFrame {
 
     private void add_reservationMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_reservationMouseEntered
        add_reservation.setBackground(new Color(0,150,136));
-       
+       add_reservation.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
     }//GEN-LAST:event_add_reservationMouseEntered
 
     private void add_reservationMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_reservationMouseExited
@@ -408,6 +411,7 @@ public class Main_Master extends javax.swing.JFrame {
 
     private void delete_reservationMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_delete_reservationMouseEntered
         delete_reservation.setBackground(new Color(0,150,136));
+        delete_reservation.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
     }//GEN-LAST:event_delete_reservationMouseEntered
 
     private void delete_reservationMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_delete_reservationMouseExited
@@ -431,6 +435,7 @@ public class Main_Master extends javax.swing.JFrame {
 
     private void update_reservationMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_update_reservationMouseEntered
         update_reservation.setBackground(new Color(0,150,136));
+        update_reservation.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
     }//GEN-LAST:event_update_reservationMouseEntered
 
     private void update_reservationMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_update_reservationMouseExited
@@ -444,6 +449,7 @@ public class Main_Master extends javax.swing.JFrame {
 
     private void paymentsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentsMouseEntered
         payments.setBackground(new Color(0,150,136));
+        payments.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
     }//GEN-LAST:event_paymentsMouseEntered
 
     private void logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutMouseClicked
@@ -452,6 +458,7 @@ public class Main_Master extends javax.swing.JFrame {
 
     private void logoutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutMouseEntered
         logout.setBackground(new Color(0,150,136));
+        logout.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
     }//GEN-LAST:event_logoutMouseEntered
 
     private void logoutMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutMouseExited
@@ -503,6 +510,7 @@ public class Main_Master extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Main_Table;
     private javax.swing.JPanel add_reservation;
     private javax.swing.JPanel delete_reservation;
     private javax.swing.JLabel jLabel1;
@@ -514,7 +522,6 @@ public class Main_Master extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel logo_image;
     private javax.swing.JPanel logout;
