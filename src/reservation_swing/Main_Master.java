@@ -419,11 +419,21 @@ public class Main_Master extends javax.swing.JFrame {
     }//GEN-LAST:event_delete_reservationMouseExited
 
     private void add_reservationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_reservationMouseClicked
-        // ### ACTION HAPPENS HERE
-        //  ADD 
+       Add_Reserve obj = new Add_Reserve();
+       obj.setVisible(true);
     }//GEN-LAST:event_add_reservationMouseClicked
 
     private void delete_reservationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_delete_reservationMouseClicked
+        /**
+         The User must click in the Table to delete the data that has been click
+         * The Deletion can deleted a multiple lines in the table(optional)
+         * Error Catching for not being able to click in the table
+         * Make a Confirmation Button(Dialog Box) in order to proceed
+         *
+         
+         **/
+
+
         // ### ACTION HAPPENS HERE
         // DELETE
     }//GEN-LAST:event_delete_reservationMouseClicked
