@@ -55,6 +55,8 @@ public class Main_Master extends javax.swing.JFrame {
         logout = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         logo_image = new javax.swing.JLabel();
+        payments1 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
         panel_top = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -189,11 +191,11 @@ public class Main_Master extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 paymentsMouseClicked(evt);
             }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                paymentsMouseEntered(evt);
-            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 paymentsMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                paymentsMouseEntered(evt);
             }
         });
 
@@ -260,6 +262,40 @@ public class Main_Master extends javax.swing.JFrame {
 
         logo_image.setIcon(new javax.swing.ImageIcon("/home/tux/Desktop/Files/Final Projects/Reservation_Swing/src/images/images(0).jpeg")); // NOI18N
 
+        payments1.setBackground(new java.awt.Color(0, 121, 107));
+        payments1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                payments1MouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                payments1MouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                payments1MouseEntered(evt);
+            }
+        });
+
+        jLabel13.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setText("Sales and Logs");
+
+        javax.swing.GroupLayout payments1Layout = new javax.swing.GroupLayout(payments1);
+        payments1.setLayout(payments1Layout);
+        payments1Layout.setHorizontalGroup(
+            payments1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(payments1Layout.createSequentialGroup()
+                .addGap(67, 67, 67)
+                .addComponent(jLabel13)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        payments1Layout.setVerticalGroup(
+            payments1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(payments1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout panel_leftLayout = new javax.swing.GroupLayout(panel_left);
         panel_left.setLayout(panel_leftLayout);
         panel_leftLayout.setHorizontalGroup(
@@ -273,6 +309,7 @@ public class Main_Master extends javax.swing.JFrame {
                 .addContainerGap(31, Short.MAX_VALUE)
                 .addComponent(logo_image)
                 .addGap(23, 23, 23))
+            .addComponent(payments1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panel_leftLayout.setVerticalGroup(
             panel_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -287,6 +324,8 @@ public class Main_Master extends javax.swing.JFrame {
                 .addComponent(update_reservation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(payments, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(payments1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(63, 63, 63))
@@ -354,7 +393,7 @@ public class Main_Master extends javax.swing.JFrame {
         Main_Table.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(Main_Table);
         if (Main_Table.getColumnModel().getColumnCount() > 0) {
-            Main_Table.getColumnModel().getColumn(3).setPreferredWidth(200);
+            Main_Table.getColumnModel().getColumn(3).setPreferredWidth(150);
         }
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -588,6 +627,18 @@ public class Main_Master extends javax.swing.JFrame {
          
     }//GEN-LAST:event_jLabel8MouseClicked
 
+    private void payments1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_payments1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_payments1MouseClicked
+
+    private void payments1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_payments1MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_payments1MouseExited
+
+    private void payments1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_payments1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_payments1MouseEntered
+
    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -633,6 +684,7 @@ public class Main_Master extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -650,6 +702,7 @@ public class Main_Master extends javax.swing.JFrame {
     private javax.swing.JPanel panel_left;
     private javax.swing.JPanel panel_top;
     private javax.swing.JPanel payments;
+    private javax.swing.JPanel payments1;
     private javax.swing.JPanel top_layer;
     private javax.swing.JPanel update_reservation;
     // End of variables declaration//GEN-END:variables
