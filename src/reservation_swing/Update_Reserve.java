@@ -5,15 +5,106 @@
  */
 package reservation_swing;
 
+import com.mysql.jdbc.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class Update_Reserve extends javax.swing.JFrame {
     
+    
+    public double calculateTotal(String rsize,String days,String amenities){
+        
+        
+        double total = 0.0;
+        double size = 0.0;
+        double d = 0.0;
+        double am = 0.0;
+        
+        if(rsize.equals("Small")){
+            size = 250;
+        }else if (rsize.equals("Medium")){
+            size = 300;
+        }else if (rsize.equals("Large")){
+            size = 350;
+        }else if (rsize.equals("Extra Large")){
+            size = 400;
+        }
+        
+        // MULTIPLIER
+        if(days.equals("1 Day")){
+            d = 1;
+        }else if (days.equals("2 Day")){
+            d = 2;
+        }else if (days.equals("3 Day")){
+            d = 3;
+        }else if (days.equals("4 Day")){
+            d = 4;
+        }else if (days.equals("5 Day")){
+            d = 5;
+        }else if (days.equals("7 Day")){
+            d = 7;
+        }else if (days.equals("10 Day")){
+            d = 10;
+        }else if (days.equals("20 Day")){
+            d = 20;
+        }else if (days.equals("30 Day")){
+            d = 30;
+        }
+        
+        
+        if(amenities.equals("No Package")){
+            am = 0;
+        }else if (amenities.equals("Package 1")){
+            am = 300;
+        }else if (amenities.equals("Package 2")){
+            am = 400;
+        }else if (amenities.equals("Package 3")){
+            am = 500;
+        }else if (amenities.equals("Package 4")){
+            am = 700;
+        }
+        
+         total = d * (size + am);       
+        
+         return total;
+        
+    }
+    
+    
+     public void getDataToUpdate(String id, String date, String day, 
+      String visitor, String room_num, String room_size,String amen ){
+        
+        display_date.setText(date);
+        
+        display_room.setText(room_num);
+        display_id.setText(id);
+        display_visitors.setText(visitor);
+        // COMBOBOX
+        display_rsize.setSelectedItem(room_size);
+        display_days.setSelectedItem(day);
+        diplay_amenities.setSelectedItem(amen);
+      
+    }
+     
+
     
     public Update_Reserve() {
         initComponents();
         this.setTitle("UPDATE");
-
+//         display_rtype.setSelectedItem("Large");
     }
 
+    
+   
+    
+    
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,20 +122,21 @@ public class Update_Reserve extends javax.swing.JFrame {
         back = new javax.swing.JButton();
         display_id = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        display_date = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        display_days = new javax.swing.JTextField();
+        display_date = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         display_room = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         display_visitors = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        display_rtype = new javax.swing.JComboBox<>();
+        display_rsize = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         diplay_amenities = new javax.swing.JComboBox<>();
+        display_days = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -75,6 +167,11 @@ public class Update_Reserve extends javax.swing.JFrame {
 
         update.setBackground(new java.awt.Color(0, 255, 0));
         update.setText("UPDATE");
+        update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateActionPerformed(evt);
+            }
+        });
 
         back.setText("BACK");
         back.addActionListener(new java.awt.event.ActionListener() {
@@ -108,21 +205,23 @@ public class Update_Reserve extends javax.swing.JFrame {
 
         jLabel4.setText("ID");
 
-        jLabel5.setText("Existing Date");
+        jLabel5.setText("Days");
 
-        jLabel7.setText("Days");
+        jLabel7.setText("Existing Date");
 
         jLabel8.setText("Existing Room Number");
 
         jLabel9.setText("Existing # of Visitors");
 
-        display_rtype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Small", "Medium", "Large" }));
+        display_rsize.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Small", "Medium", "Large" }));
 
-        jLabel10.setText("Existing Room Type");
+        jLabel10.setText("Existing Room Size");
 
         jLabel11.setText("Existing Extra Amenities");
 
         diplay_amenities.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Package 1", "Package 2", "Package 3", "Package 4" }));
+
+        display_days.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 Day", "2 Day", "3 Day", "4 Day", "5 Day", "7 Day", "10 Day", "20 Day", "30 Day" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -132,27 +231,27 @@ public class Update_Reserve extends javax.swing.JFrame {
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(display_id, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(display_days, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(display_date, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel5)
+                    .addComponent(display_days, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(diplay_amenities, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(display_date, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(display_visitors, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9))
+                            .addComponent(display_id, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel11)
+                            .addComponent(diplay_amenities, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(39, 39, 39)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel10)
                             .addComponent(display_room)
                             .addComponent(jLabel8)
-                            .addComponent(display_rtype, 0, 180, Short.MAX_VALUE))))
+                            .addComponent(display_rsize, 0, 180, Short.MAX_VALUE)))
+                    .addComponent(display_visitors, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(81, 81, 81))
         );
         jPanel1Layout.setVerticalGroup(
@@ -162,38 +261,35 @@ public class Update_Reserve extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(display_room, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(display_room, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(display_id, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                        .addComponent(jLabel10)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel11))
                         .addGap(8, 8, 8)
-                        .addComponent(display_rtype, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(display_rsize, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(diplay_amenities, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(5, 5, 5)
-                                .addComponent(display_days, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(display_date, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(1, 1, 1)
+                        .addComponent(jLabel7)
+                        .addGap(5, 5, 5)
+                        .addComponent(display_date, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addGap(5, 5, 5)
-                                .addComponent(display_visitors, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(5, 5, 5)
-                                .addComponent(display_id, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel11)
-                .addGap(8, 8, 8)
-                .addComponent(diplay_amenities, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(display_days, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(display_visitors, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39))
         );
@@ -220,6 +316,60 @@ public class Update_Reserve extends javax.swing.JFrame {
         this.dispose();
         
     }//GEN-LAST:event_backActionPerformed
+
+    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
+        // TODO add your handling code here:
+        /**
+         *  NOT FIX: NOT REFRESHING THE JTABLE 
+         */
+        String id = display_id.getText();
+        String date = display_date.getText();
+        String day = (String) display_days.getSelectedItem();
+        String visitor = display_visitors.getText();
+        String rnum = display_room.getText();
+        String rsize =  (String) display_rsize.getSelectedItem();
+        String am = (String) diplay_amenities.getSelectedItem();
+        
+        Double total = calculateTotal(rsize,day,am);
+        
+        if(id.equals("") && date.equals("") && visitor.equals("") 
+                && rnum.equals("")){
+            
+             JOptionPane.showMessageDialog(null, "Please Input the Missing Fields","FIELDS",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            
+            try{
+                 Class.forName("com.mysql.jdbc.Driver");
+                Connection conn = (Connection) DriverManager.getConnection(""
+                        + "jdbc:mysql://localhost:3306/reservation","root","");
+                 PreparedStatement query =  conn.prepareStatement(
+                 "UPDATE room_reserve SET ID = " + "'" + id + "'" + "," + "date = " +
+                         "'" + date + "'" + "," + "days = " + "'" + day + "'" + "," +
+                         "visitors = " + "'" + visitor +"'" + "," + "room_number = " + 
+                         "'" + rnum +"'" + "," + "room_size = " + "'" + rsize+ "'" + "," +
+                         "amenities = " + "'" + am + "'" + "," + "total = " + "'" + total + "'"+
+                         "WHERE ID = " + "'" + id + "'" );
+                
+                query.execute();
+               
+                JOptionPane.showMessageDialog(null, "Successfully Updated","UPDATED",
+                    JOptionPane.INFORMATION_MESSAGE);
+                
+                
+                
+                
+                this.dispose();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            
+            
+        }
+        
+        
+        
+    }//GEN-LAST:event_updateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -260,10 +410,10 @@ public class Update_Reserve extends javax.swing.JFrame {
     private javax.swing.JButton back;
     private javax.swing.JComboBox<String> diplay_amenities;
     private javax.swing.JTextField display_date;
-    private javax.swing.JTextField display_days;
+    private javax.swing.JComboBox<String> display_days;
     private javax.swing.JTextField display_id;
     private javax.swing.JTextField display_room;
-    private javax.swing.JComboBox<String> display_rtype;
+    private javax.swing.JComboBox<String> display_rsize;
     private javax.swing.JTextField display_visitors;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

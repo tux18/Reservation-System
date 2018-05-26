@@ -8,6 +8,8 @@ public class Payments extends javax.swing.JFrame {
     
     public Payments() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setTitle("Payment");
     }
 
     /**
@@ -40,7 +42,8 @@ public class Payments extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Payments");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
