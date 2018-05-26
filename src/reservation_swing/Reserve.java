@@ -5,10 +5,7 @@
  */
 package reservation_swing;
 
-/**
- *
- * @author T-Brother
- */
+
 public class Reserve {
     
     private String ID;

@@ -923,6 +923,7 @@ public class Main_Master extends javax.swing.JFrame {
         Update_Reserve obj = new Update_Reserve();
         obj.setVisible(true);
         obj.setLocationRelativeTo(null);
+       
     }//GEN-LAST:event_update_reservationMouseClicked
 
     private void update_reservationMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_update_reservationMouseEntered
@@ -937,6 +938,8 @@ public class Main_Master extends javax.swing.JFrame {
     private void paymentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentsMouseClicked
         // TODO add your handling code here:
         // PAYMENT
+        
+        
     }//GEN-LAST:event_paymentsMouseClicked
 
     private void paymentsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentsMouseEntered
@@ -965,6 +968,10 @@ public class Main_Master extends javax.swing.JFrame {
 
     private void salesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salesMouseClicked
         // TODO add your handling code here:
+        
+        Reports obj = new Reports();
+        obj.setVisible(true);
+        
     }//GEN-LAST:event_salesMouseClicked
 
     private void salesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salesMouseExited
@@ -991,8 +998,11 @@ public class Main_Master extends javax.swing.JFrame {
         
         total = calculateTotal(room_selected, day_selected, amenities_selected);
         
-        
-        choice = JOptionPane.showConfirmDialog(for_add_reservation, "Total Payment: " + total,
+        if(get_room_number.equals("") && get_visitors.equals("")){
+            JOptionPane.showMessageDialog(for_add_reservation, "Please Input the Missing Fields","FIELDS",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            choice = JOptionPane.showConfirmDialog(for_add_reservation, "Total Payment: " + total,
                 "TOTAL PAYMENT" 
                 , JOptionPane.OK_CANCEL_OPTION );
 
@@ -1023,13 +1033,15 @@ public class Main_Master extends javax.swing.JFrame {
                e.printStackTrace();
             }
             
-            
-            
-            
+
             for_add_reservation.dispose();
         }else{
             // CANCEL
         }
+        
+        }
+        
+       
         
         
 

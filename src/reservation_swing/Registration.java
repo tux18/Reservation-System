@@ -196,7 +196,6 @@ public class Registration extends javax.swing.JFrame {
 //              }
 //              
               
-            
         }catch(HeadlessException | ClassNotFoundException | SQLException e){
             System.out.print(e);
 //              JOptionPane.showMessageDialog(null, "No Connection", "Connection",JOptionPane.ERROR_MESSAGE);

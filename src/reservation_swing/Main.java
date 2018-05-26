@@ -224,7 +224,7 @@ public class Main extends javax.swing.JFrame {
                     }
 //                    
                 }
-
+                
                 if(condition == true){
                    username.setText("");
                   password.setText("");
@@ -249,13 +249,7 @@ public class Main extends javax.swing.JFrame {
             
             
         }
-        
-      
-        
-       
-        
 
-      
     }//GEN-LAST:event_btn_loginActionPerformed
 
     /**
