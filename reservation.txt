@@ -1,0 +1,33 @@
+####
+PRICES
+
+
+Room Size
+
+small = 150
+medium = 200
+large = 250
+xtra large = 300
+
+
+days
+1 Day
+2 Day
+3 Day
+4 Day
+5 Day
+7 Day
+10 Day
+20 Day
+30 Day
+
+# multiply it
+
+
+xtra amenities
+
+package 1 = 500
+packge 2 = 800
+package 3 = 1000
+package 4 = 1200
+

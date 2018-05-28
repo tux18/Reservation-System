@@ -30,6 +30,41 @@ public class Main_Master extends javax.swing.JFrame {
         display_name.setText(fname + " " +lname);
     }
     
+    public void paymentDelete(){
+          int selected = main_table.getSelectedRowCount();
+        
+         
+             
+            DefaultTableModel model = (DefaultTableModel) main_table.getModel();
+            int column = 0;
+
+
+            int row = main_table.getSelectedRow();  
+
+            String get_id =
+            main_table.getModel().getValueAt(row, column).toString();
+        
+       
+        try{
+            
+           Class.forName("com.mysql.jdbc.Driver");
+           Connection conn = (Connection) DriverManager.getConnection(""
+           + "jdbc:mysql://localhost:3306/reservation","root","");  
+           
+           PreparedStatement query =  
+          conn.prepareStatement("DELETE FROM room_reserve WHERE ID = " + "'" + get_id +"'"); 
+           query.execute();
+           model.removeRow(row);
+            JOptionPane.showMessageDialog(null, "Cancel Successfully","CANCEL",JOptionPane.INFORMATION_MESSAGE);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Select in the Table to Cancel","CANCEL",JOptionPane.INFORMATION_MESSAGE);
+            e.printStackTrace();
+        }
+        
+    
+             
+       
+    }
   
     
     
@@ -271,7 +306,7 @@ public class Main_Master extends javax.swing.JFrame {
         panel_left = new javax.swing.JPanel();
         add_reservation = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        delete_reservation = new javax.swing.JPanel();
+        cancel_reservation = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         update_reservation = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -958,41 +993,41 @@ public class Main_Master extends javax.swing.JFrame {
 
         panel_left.add(add_reservation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 208, 248, -1));
 
-        delete_reservation.setBackground(new java.awt.Color(0, 121, 107));
-        delete_reservation.addMouseListener(new java.awt.event.MouseAdapter() {
+        cancel_reservation.setBackground(new java.awt.Color(0, 121, 107));
+        cancel_reservation.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                delete_reservationMouseClicked(evt);
+                cancel_reservationMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                delete_reservationMouseEntered(evt);
+                cancel_reservationMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                delete_reservationMouseExited(evt);
+                cancel_reservationMouseExited(evt);
             }
         });
 
         jLabel5.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Delete Reservation");
+        jLabel5.setText("Cancel Reservation");
 
-        javax.swing.GroupLayout delete_reservationLayout = new javax.swing.GroupLayout(delete_reservation);
-        delete_reservation.setLayout(delete_reservationLayout);
-        delete_reservationLayout.setHorizontalGroup(
-            delete_reservationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(delete_reservationLayout.createSequentialGroup()
+        javax.swing.GroupLayout cancel_reservationLayout = new javax.swing.GroupLayout(cancel_reservation);
+        cancel_reservation.setLayout(cancel_reservationLayout);
+        cancel_reservationLayout.setHorizontalGroup(
+            cancel_reservationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cancel_reservationLayout.createSequentialGroup()
                 .addGap(56, 56, 56)
                 .addComponent(jLabel5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        delete_reservationLayout.setVerticalGroup(
-            delete_reservationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, delete_reservationLayout.createSequentialGroup()
+        cancel_reservationLayout.setVerticalGroup(
+            cancel_reservationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cancel_reservationLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        panel_left.add(delete_reservation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 265, 248, -1));
+        panel_left.add(cancel_reservation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 265, 248, -1));
 
         update_reservation.setBackground(new java.awt.Color(0, 121, 107));
         update_reservation.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1294,7 +1329,7 @@ public class Main_Master extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 475, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1323,14 +1358,14 @@ public class Main_Master extends javax.swing.JFrame {
         add_reservation.setBackground(new Color(0,121,107));
     }//GEN-LAST:event_add_reservationMouseExited
 
-    private void delete_reservationMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_delete_reservationMouseEntered
-        delete_reservation.setBackground(new Color(0,150,136));
-        delete_reservation.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-    }//GEN-LAST:event_delete_reservationMouseEntered
+    private void cancel_reservationMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancel_reservationMouseEntered
+        cancel_reservation.setBackground(new Color(0,150,136));
+        cancel_reservation.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
+    }//GEN-LAST:event_cancel_reservationMouseEntered
 
-    private void delete_reservationMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_delete_reservationMouseExited
-        delete_reservation.setBackground(new Color(0,121,107));
-    }//GEN-LAST:event_delete_reservationMouseExited
+    private void cancel_reservationMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancel_reservationMouseExited
+        cancel_reservation.setBackground(new Color(0,121,107));
+    }//GEN-LAST:event_cancel_reservationMouseExited
 
     private void add_reservationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_reservationMouseClicked
 
@@ -1349,7 +1384,7 @@ public class Main_Master extends javax.swing.JFrame {
 
     }//GEN-LAST:event_add_reservationMouseClicked
 
-    private void delete_reservationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_delete_reservationMouseClicked
+    private void cancel_reservationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancel_reservationMouseClicked
         
         
         
@@ -1377,16 +1412,16 @@ public class Main_Master extends javax.swing.JFrame {
           conn.prepareStatement("DELETE FROM room_reserve WHERE ID = " + "'" + get_id +"'"); 
            query.execute();
            model.removeRow(row);
-            JOptionPane.showMessageDialog(null, "Deleted Successfully","DELETE",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Cancel Successfully","CANCEL",JOptionPane.INFORMATION_MESSAGE);
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Select in the Table to Delete","DELETE",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Select in the Table to Cancel","CANCEL",JOptionPane.INFORMATION_MESSAGE);
             e.printStackTrace();
         }
         
         System.out.print(get_id);
              
         }else{
-             JOptionPane.showMessageDialog(null, "Select in the Table to Delete","DELETE",JOptionPane.INFORMATION_MESSAGE);
+             JOptionPane.showMessageDialog(null, "Select in the Table to CANCEL","CANCEL",JOptionPane.INFORMATION_MESSAGE);
         }
         /**
          The User must click in the Table to delete the data that has been click
@@ -1400,7 +1435,7 @@ public class Main_Master extends javax.swing.JFrame {
        
         
         
-    }//GEN-LAST:event_delete_reservationMouseClicked
+    }//GEN-LAST:event_cancel_reservationMouseClicked
 
     private void update_reservationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_update_reservationMouseClicked
         // TODO add your handling code here:
@@ -1673,7 +1708,7 @@ public class Main_Master extends javax.swing.JFrame {
     }//GEN-LAST:event_payment_cancelActionPerformed
 
     private void processActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_processActionPerformed
-        
+        DefaultTableModel model = (DefaultTableModel) main_table.getModel();
         String get_change = display_change.getText();
         int row = main_table.getSelectedRow();
            String get_id =
@@ -1694,10 +1729,25 @@ public class Main_Master extends javax.swing.JFrame {
                       + " VALUES (" + "'" +get_id + "'" + ","+"'" + get_date + "'"+","+ "'"+total+"'"+ ")");
                 
                 query.execute();
+                
+                PreparedStatement q =  
+             conn.prepareStatement("DELETE FROM room_reserve WHERE room_reserve.ID = " + "'" + get_id +"'"); 
+           q.execute();
+           model.removeRow(row);
+                
+                
                 JOptionPane.showMessageDialog(null, "Payment Complete","Success",JOptionPane.INFORMATION_MESSAGE);
+               
+                
+                
+    
+                
+                
                 for_payment.dispose();
+                
            }catch(Exception e){
                 JOptionPane.showMessageDialog(null, "ERROR: Something went wrong","ERROR",JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
            }
             
         }
@@ -1754,11 +1804,11 @@ public class Main_Master extends javax.swing.JFrame {
     private javax.swing.JButton back;
     private javax.swing.JTextField bill;
     private javax.swing.JPanel cancel;
+    private javax.swing.JPanel cancel_reservation;
     private javax.swing.JButton change_password;
     private javax.swing.JButton change_username;
     private javax.swing.JButton compute;
     private javax.swing.JComboBox<String> days;
-    private javax.swing.JPanel delete_reservation;
     private javax.swing.JComboBox<String> diplay_amenities;
     private javax.swing.JLabel display_change;
     private javax.swing.JTextField display_date;

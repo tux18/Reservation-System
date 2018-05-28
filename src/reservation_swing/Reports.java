@@ -62,13 +62,32 @@ public class Reports extends javax.swing.JFrame {
         }
     }
     
-    
+    public void displayTotal(){
+         DefaultTableModel model = (DefaultTableModel) report_table.getModel();
+         int get_row = report_table.getRowCount();
+         int get_column = report_table.getColumnCount();
+         
+         System.out.println(get_row + "  " + get_column);
+         double total = 0.0;
+         double b = 0.0;
+         String get;
+         for(int x = 0;x < get_row;x++){
+             get = (String) model.getValueAt(x, 2);
+             total += Double.valueOf(get);
+         }
+         
+         display_income.setText(String.valueOf(total));
+         
+
+         //model.getValueAt(ERROR, NORMAL)
+    }
     
     public Reports() {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Report");
         showTable();
+        displayTotal();
     }
 
     /**
@@ -126,11 +145,17 @@ public class Reports extends javax.swing.JFrame {
             new String [] {
                 "ID", "Date", "Total Balance"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        report_table.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(report_table);
-        if (report_table.getColumnModel().getColumnCount() > 0) {
-            report_table.getColumnModel().getColumn(2).setResizable(false);
-        }
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 574, 299));
 
