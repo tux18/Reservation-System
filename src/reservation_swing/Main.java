@@ -88,6 +88,8 @@ public class Main extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jLabel2.setText("Password");
 
+        btn_login.setBackground(new java.awt.Color(0, 121, 107));
+        btn_login.setForeground(new java.awt.Color(255, 255, 255));
         btn_login.setMnemonic('l');
         btn_login.setText("Login");
         btn_login.setToolTipText("user login");
@@ -97,6 +99,8 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        register.setBackground(new java.awt.Color(0, 121, 107));
+        register.setForeground(new java.awt.Color(255, 255, 255));
         register.setText("Register");
         register.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,18 +113,22 @@ public class Main extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(168, 168, 168)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(register, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
-                        .addComponent(btn_login, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(168, 168, 168)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addGap(10, 10, 10)
+                                    .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(212, 212, 212)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btn_login, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(register, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))))
                 .addContainerGap(159, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -136,9 +144,9 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_login, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(register, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(register, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(22, 160, 133));
@@ -169,11 +177,11 @@ public class Main extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(23, 23, 23)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -192,6 +200,7 @@ public class Main extends javax.swing.JFrame {
         
     }//GEN-LAST:event_registerActionPerformed
 
+    int ctr = 1;
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
         /**
          * Need to add Error Catching in the Fields
@@ -203,9 +212,19 @@ public class Main extends javax.swing.JFrame {
         boolean condition = false;
         String getfname = "";
         String getlname = "";
+        String username1 = "";
+        String getpass = "";
         
-        if(user.equals("") && pass.equals("")){
-           JOptionPane.showMessageDialog(null, "Please Input the Missing FIelds", "Error",JOptionPane.ERROR_MESSAGE); 
+     if(ctr == 3){
+           JOptionPane.showMessageDialog(null, "Retry Count: " + ctr + ""
+                + " you have been reach the maximum counts the system will exit...", "Warning",JOptionPane.WARNING_MESSAGE); 
+           System.exit(0);
+     }else{
+       
+     
+      if(user.equals("") && pass.equals("")){
+           JOptionPane.showMessageDialog(null, "Please Input the Missing Fields | " + "Retry Counts: " + ctr, "Error",JOptionPane.ERROR_MESSAGE); 
+           ctr += 1;
         }else{
             
             try{
@@ -221,6 +240,8 @@ public class Main extends javax.swing.JFrame {
                         condition = true;
                         getfname = set.getString(4);
                         getlname = set.getString(5);
+                       username1 = set.getString(1);
+                       getpass = set.getString(2);
                     }
 //                    
                 }
@@ -232,13 +253,16 @@ public class Main extends javax.swing.JFrame {
                   , "Login",JOptionPane.INFORMATION_MESSAGE);
 
                 Main_Master obj = new Main_Master();
-                obj.getData(getfname, getlname);
+                obj.display_name.setText(username1);
+                obj.getPass = getpass;
+                //obj.getData(getfname, getlname);
                 obj.setVisible(true);
                 this.setVisible(false);  
                 
                 }else{
-                 JOptionPane.showMessageDialog(null, "Invalid Username and Password"
-                   , "Authentication",JOptionPane.INFORMATION_MESSAGE);   
+                 JOptionPane.showMessageDialog(null, "Invalid Username and Password | " + "Retry Counts: " + ctr
+                   , "Authentication",JOptionPane.INFORMATION_MESSAGE); 
+                 ctr += 1;
                 }
               
                 
@@ -249,6 +273,12 @@ public class Main extends javax.swing.JFrame {
             
             
         }
+     
+     
+     
+     
+     }
+       
 
     }//GEN-LAST:event_btn_loginActionPerformed
 

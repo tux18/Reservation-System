@@ -13,19 +13,19 @@ public class Reserve {
     private String day;
     private String visitor;
     private String room_num;
-    private String room_size;
     private String amenities;
+    private String xtra_amenities;
     private String total;
     
     
-    public Reserve(String id,String d, String da, String v, String rn, String rs, String am, String to){
+    public Reserve(String id,String d, String da, String v, String rn, String am, String xtra_am, String to){
         this.ID = id;
         this.date = d;
         this.day = da;
         this.visitor = v;
         this.room_num = rn;
-        this.room_size = rs;
         this.amenities = am;
+        this.xtra_amenities = xtra_am;
         this.total = to;
         
     }
@@ -46,11 +46,13 @@ public class Reserve {
     public String getRoomNumber(){
         return room_num;
     }
-    public String getRoomSize(){
-        return room_size;
-    }
+   
     public String getAmenities(){
         return amenities;
+    }
+    
+    public String getXtraAmenities(){
+        return xtra_amenities;
     }
     public String getTotal(){
         return total;

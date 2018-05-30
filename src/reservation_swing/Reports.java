@@ -63,6 +63,7 @@ public class Reports extends javax.swing.JFrame {
     }
     
     public void displayTotal(){
+         
          DefaultTableModel model = (DefaultTableModel) report_table.getModel();
          int get_row = report_table.getRowCount();
          int get_column = report_table.getColumnCount();

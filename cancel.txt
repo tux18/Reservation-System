@@ -1,0 +1,45 @@
+ int selected = main_table.getSelectedRowCount();
+        
+         if(selected != 0){
+             
+            DefaultTableModel model = (DefaultTableModel) main_table.getModel();
+            int column = 0;
+
+
+            int row = main_table.getSelectedRow();  
+
+            String get_id =
+            main_table.getModel().getValueAt(row, column).toString();
+        
+       
+        try{
+            
+           Class.forName("com.mysql.jdbc.Driver");
+           Connection conn = (Connection) DriverManager.getConnection(""
+           + "jdbc:mysql://localhost:3306/reservation","root","");  
+           
+           PreparedStatement query =  
+          conn.prepareStatement("DELETE FROM room_reserve WHERE ID = " + "'" + get_id +"'"); 
+           query.execute();
+           model.removeRow(row);
+            JOptionPane.showMessageDialog(null, "Cancel Successfully","CANCEL",JOptionPane.INFORMATION_MESSAGE);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Select in the Table to Cancel","CANCEL",JOptionPane.INFORMATION_MESSAGE);
+            e.printStackTrace();
+        }
+        
+        System.out.print(get_id);
+             
+        }else{
+             JOptionPane.showMessageDialog(null, "Select in the Table to CANCEL","CANCEL",JOptionPane.INFORMATION_MESSAGE);
+        }
+         
+        /**
+         The User must click in the Table to delete the data that has been click
+         * The Deletion can deleted a multiple lines in the table(optional)
+         * Error Catching for not being able to click in the table
+         * Make a Confirmation Button(Dialog Box) in order to proceed 
+         * 
+         * LINK: 
+         **/
+        
