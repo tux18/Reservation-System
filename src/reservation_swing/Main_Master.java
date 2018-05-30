@@ -68,13 +68,55 @@ public class Main_Master extends javax.swing.JFrame {
   
     
     
-    public double calculateTotal(String days,String amenities){
+    public double calculateTotal(String days,String amenities, String xtra,String room_num){
         double total = 0.0;
-        double size = 0.0;
+        double x = 0.0;
         double d = 0.0;
         double am = 0.0;
-     
+        double hours = 0;
+        double room_price = 0;
         // MULTIPLIER
+        double total_amenities = 0.0;
+         double f = 0.0;
+        
+        if(room_num.equals("Room 1")){
+            room_price = 799;
+        }else if (room_num.equals("Room 2")){
+           room_price = 799;
+        }else if (room_num.equals("Room 3")){
+           room_price = 950;
+        }else if (room_num.equals("Room 4")){
+           room_price = 799;
+        }else if (room_num.equals("Room 5")){
+           room_price = 1100;
+        }else if (room_num.equals("Room 6")){
+           room_price = 1100;
+        }else if (room_num.equals("Room 7")){
+           room_price = 1000;
+        }else if (room_num.equals("Room 8")){
+           room_price = 1400;
+        }else if (room_num.equals("Room 9")){
+           room_price = 1000;
+        }else if (room_num.equals("Room 10")){
+           room_price = 2000;
+        }else if (room_num.equals("Room 11")){
+           room_price = 1900;
+        }else if (room_num.equals("Room 12")){
+           room_price = 1100;
+        }else if (room_num.equals("Room 13")){
+           room_price = 1100;
+        }else if (room_num.equals("Room 14")){
+           room_price = 1400;
+        }else if (room_num.equals("Room 15")){
+           room_price = 850;
+        }
+        
+      
+        
+        
+        
+        
+        
         if(days.equals("1 Day")){
             d = 1;
         }else if (days.equals("2 Day")){
@@ -93,24 +135,113 @@ public class Main_Master extends javax.swing.JFrame {
             d = 20;
         }else if (days.equals("30 Day")){
             d = 30;
+        }else{
+            d = 1;
+        }
+       
+        if (days.equals("1 Hour")){
+            hours = 20;
+        }else if (days.equals("2 Hour")){
+            hours = 25;
+        }else if (days.equals("3 Hour")){
+            hours = 30;
+        }else if (days.equals("4 Hour")){
+            hours = 35;
+        }else if (days.equals("5 Hour")){
+            hours = 40;
+        }else if (days.equals("6 Hour")){
+            hours = 45;
+        }else if (days.equals("7 Hour")){
+            hours = 50;
+        }else if (days.equals("8 Hour")){
+            hours = 60;
+        }else if (days.equals("9 Hour")){
+            hours = 70;
+        }else if (days.equals("10 Hour")){
+            hours = 80;
+        }else if (days.equals("11 Hour")){
+            hours = 90;
+        }else if (days.equals("12 Hour")){
+            hours = 100;
+        }else if (days.equals("13 Hour")){
+            hours = 105;
+        }else if (days.equals("14 Hour")){
+            hours = 110;
+        }else if (days.equals("15 Hour")){
+            hours = 115;
+        }else if (days.equals("16 Hour")){
+            hours = 120;
+        }else if (days.equals("17 Hour")){
+            hours = 125;
+        }else if (days.equals("18 Hour")){
+            hours = 130;
+        }else if (days.equals("19 Hour")){
+            hours = 135;
+        }else if (days.equals("20 Hour")){
+            hours = 140;
+        }else if (days.equals("21 Hour")){
+            hours = 145;
+        }else if (days.equals("22 Hour")){
+            hours = 150;
+        }else if (days.equals("23 Hour")){
+            hours = 155;
+        }else if (days.equals("24 Hour")){
+            hours = 160;
         }
         
         
         if(amenities.equals("No Package")){
             am = 0;
         }else if (amenities.equals("Package 1")){
-            am = 300;
-        }else if (amenities.equals("Package 2")){
-            am = 400;
-        }else if (amenities.equals("Package 3")){
             am = 500;
-        }else if (amenities.equals("Package 4")){
+        }else if (amenities.equals("Package 2")){
             am = 700;
+        }else if (amenities.equals("Package 3")){
+            am = 1000;
+        }else if (amenities.equals("Package 4")){
+            am = 1500;
         }
         
-         total = d * (size + am);       
+         if(xtra.equals("No Extra Amenities")){
+            x = 0;
+        }else if (xtra.equals("UP 1")){
+            x = 500;
+        }else if (xtra.equals("UP 2")){
+            x = 1000;
+        }else if (xtra.equals("UP 3")){
+            x = 1500;
+        }else if (xtra.equals("1 Pillow")){
+            x = 0;
+        }else if (xtra.equals("1 Pillow")){
+            x = 0;
+        }else if (xtra.equals("2 Pillow")){
+            x = 0;
+        }else if (xtra.equals("3 Pillow")){
+            x = 0;
+        }else if (xtra.equals("4 Pillow")){
+            x = 0;
+        }else if (xtra.equals("5 Pillow")){
+            x = 0;
+        }else if (xtra.equals("1 Blanket")){
+            x = 0;
+        }else if (xtra.equals("1 Pillow")){
+            x = 0;
+        }else if (xtra.equals("2 Pillow")){
+            x = 0;
+        }else if (xtra.equals("3 Pillow")){
+            x = 0;
+        }else if (xtra.equals("4 Pillow")){
+            x = 0;
+        }else if (xtra.equals("5 Pillow")){
+            x = 0;
+        }
+         total_amenities = x + am;
         
-         return total;
+         total = (room_price + hours + total_amenities);       
+        System.out.println(total);
+        f = total * d;
+        System.out.println(f);
+         return f;
         
     }
     
@@ -1644,7 +1775,7 @@ public class Main_Master extends javax.swing.JFrame {
       }else{
           
           
-        total = calculateTotal(day_selected, amenities_selected);
+        total = calculateTotal(day_selected, amenities_selected,get_xtra_amenities, get_room_number);
         
         if(get_room_number.equals("") && get_visitors.equals("")){
             JOptionPane.showMessageDialog(for_add_reservation, "Please Input the Missing Fields","FIELDS",
@@ -1729,7 +1860,7 @@ public class Main_Master extends javax.swing.JFrame {
         String rsize =  (String) display_rsize.getSelectedItem();
         String am = (String) diplay_amenities.getSelectedItem();
 
-        double total = calculateTotal(day,am);
+       // double total = calculateTotal(day,am);
 
         if(id.equals("") && date.equals("") && visitor.equals("")
             && rnum.equals("")){
@@ -1747,7 +1878,7 @@ public class Main_Master extends javax.swing.JFrame {
                     "'" + date + "'" + "," + "days = " + "'" + day + "'" + "," +
                     "visitors = " + "'" + visitor +"'" + "," + "room_number = " +
                     "'" + rnum +"'" + "," + "room_size = " + "'" + rsize+ "'" + "," +
-                    "amenities = " + "'" + am + "'" + "," + "total = " + "'" + total + "'"+
+                    "amenities = " + "'" + am + "'" + "," + "total = " + "'" + "test" + "'"+
                     "WHERE ID = " + "'" + id + "'" );
                     
                 query.execute();
