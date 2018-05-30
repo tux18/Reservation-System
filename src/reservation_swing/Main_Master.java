@@ -296,15 +296,15 @@ public class Main_Master extends javax.swing.JFrame {
     
      
     public void getDataToUpdate(String id, String date, String day, 
-      String visitor, String room_num, String room_size,String amen ){
+      String visitor, String room_num, String xtra,String amen ){
         
         display_date.setText(date);
         
-        display_room.setText(room_num);
+        display_room.setSelectedItem(room_num);
         display_id.setText(id);
         display_visitors.setText(visitor);
         // COMBOBOX
-        display_rsize.setSelectedItem(room_size);
+        display_xtra_a.setSelectedItem(xtra);
         display_days.setSelectedItem(day);
         diplay_amenities.setSelectedItem(amen);
       
@@ -439,11 +439,10 @@ public class Main_Master extends javax.swing.JFrame {
         for_update = new javax.swing.JDialog();
         display_date = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        display_room = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         display_visitors = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
-        display_rsize = new javax.swing.JComboBox<>();
+        display_xtra_a = new javax.swing.JComboBox<>();
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
@@ -451,11 +450,15 @@ public class Main_Master extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         update = new javax.swing.JButton();
         back = new javax.swing.JButton();
+        update1 = new javax.swing.JButton();
         display_id = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
         diplay_amenities = new javax.swing.JComboBox<>();
         jLabel29 = new javax.swing.JLabel();
         display_days = new javax.swing.JComboBox<>();
+        display_room = new javax.swing.JComboBox<>();
+        display_visitors1 = new javax.swing.JTextField();
+        jLabel22 = new javax.swing.JLabel();
         for_payment = new javax.swing.JDialog();
         jPanel8 = new javax.swing.JPanel();
         jLabel30 = new javax.swing.JLabel();
@@ -761,17 +764,17 @@ public class Main_Master extends javax.swing.JFrame {
 
         jLabel11.setText("Existing Date");
 
-        display_room.setEnabled(false);
-
         jLabel12.setText("Existing Room Number");
+
+        display_visitors.setEnabled(false);
 
         jLabel18.setText("Existing # of Visitors");
 
-        display_rsize.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Small", "Medium", "Large" }));
+        display_xtra_a.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No Extra Amenities", "1 Blanket", "2 Blanket", "3 Blanket", "4 Blanket", "5 Blanket", "1 Pillow", "2 Pillow", "3 Pillow", "4 Pillow", "5 Pillow", "UP 1", "UP 2", "UP 3" }));
 
-        jLabel25.setText("Existing Room Size");
+        jLabel25.setText("Existing Extra Amenities");
 
-        jLabel26.setText("Existing Extra Amenities");
+        jLabel26.setText("Existing Amenities");
 
         jPanel6.setBackground(new java.awt.Color(22, 160, 133));
 
@@ -813,6 +816,15 @@ public class Main_Master extends javax.swing.JFrame {
             }
         });
 
+        update1.setBackground(new java.awt.Color(255, 51, 51));
+        update1.setForeground(new java.awt.Color(255, 255, 255));
+        update1.setText("Cancel Reservation");
+        update1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                update1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -820,6 +832,7 @@ public class Main_Master extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(226, 226, 226)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(update1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(update, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -827,22 +840,30 @@ public class Main_Master extends javax.swing.JFrame {
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addContainerGap()
                 .addComponent(update, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(update1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(back)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         display_id.setEditable(false);
 
         jLabel28.setText("ID");
 
-        diplay_amenities.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Package 1", "Package 2", "Package 3", "Package 4" }));
+        diplay_amenities.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No Amenities", "Package 1", "Package 2", "Package 3", "Package 4" }));
 
-        jLabel29.setText("Days");
+        jLabel29.setText("# Days/Hours");
 
-        display_days.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 Day", "2 Day", "3 Day", "4 Day", "5 Day", "7 Day", "10 Day", "20 Day", "30 Day" }));
+        display_days.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 Hour", "2 Hour", "3 Hour", "4 Hour", "5 Hour", "6 Hour", "7 Hour", "8 Hour", "9 Hour", "10 Hour", "11 Hour", "12 Hour", "13 Hour", "14 Hour", "15 Hour", "16 Hour", "17 Hour", "18 Hour", "19 Hour", "20 Hour", "21 Hour", "22 Hour", "23 Hour", "24 Hour (1 Day)", "2 Day", "3 Day", "4 Day", "5 Day", "7 Day", "10 Day", "20 Day", "30 Day" }));
+
+        display_room.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Room Number", "Room 1", "Room 2", "Room 3", "Room 4", "Room 5", "Room 6", "Room 7", "Room 8", "Room 9", "Room 10", "Room 11", "Room 12", "Room 13", "Room 14", "Room 15" }));
+
+        display_visitors1.setEnabled(false);
+
+        jLabel22.setText("Room Status");
 
         javax.swing.GroupLayout for_updateLayout = new javax.swing.GroupLayout(for_update.getContentPane());
         for_update.getContentPane().setLayout(for_updateLayout);
@@ -850,16 +871,18 @@ public class Main_Master extends javax.swing.JFrame {
             for_updateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, for_updateLayout.createSequentialGroup()
+            .addGroup(for_updateLayout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addGroup(for_updateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(display_date, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel29)
-                    .addComponent(display_days, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(for_updateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(for_updateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(display_date, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                        .addComponent(jLabel11)
+                        .addComponent(jLabel29)
+                        .addComponent(display_days, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel18)
+                    .addComponent(display_visitors, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(for_updateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel18)
                     .addGroup(for_updateLayout.createSequentialGroup()
                         .addGroup(for_updateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(display_id, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -867,12 +890,13 @@ public class Main_Master extends javax.swing.JFrame {
                             .addComponent(jLabel26)
                             .addComponent(diplay_amenities, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(39, 39, 39)
-                        .addGroup(for_updateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(for_updateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel25)
-                            .addComponent(display_room)
                             .addComponent(jLabel12)
-                            .addComponent(display_rsize, 0, 180, Short.MAX_VALUE)))
-                    .addComponent(display_visitors, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(display_xtra_a, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(display_room, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel22)
+                    .addComponent(display_visitors1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45))
         );
         for_updateLayout.setVerticalGroup(
@@ -887,15 +911,15 @@ public class Main_Master extends javax.swing.JFrame {
                             .addComponent(jLabel28))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(for_updateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(display_room, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(display_id, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(display_id, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(display_room, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                         .addGroup(for_updateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel25)
                             .addComponent(jLabel26))
                         .addGap(8, 8, 8)
                         .addGroup(for_updateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(display_rsize, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(display_xtra_a, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(diplay_amenities, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(for_updateLayout.createSequentialGroup()
                         .addGap(1, 1, 1)
@@ -906,19 +930,26 @@ public class Main_Master extends javax.swing.JFrame {
                         .addComponent(jLabel29)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(display_days, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel18)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(display_visitors, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(for_updateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, for_updateLayout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(display_visitors, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, for_updateLayout.createSequentialGroup()
+                        .addComponent(jLabel22)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(display_visitors1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                .addGap(25, 25, 25))
         );
 
         for_payment.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         for_payment.setTitle("PAYMENT");
         for_payment.setLocation(new java.awt.Point(0, 0));
         for_payment.setModalExclusionType(java.awt.Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
+        for_payment.setPreferredSize(new java.awt.Dimension(415, 620));
         for_payment.setResizable(false);
         for_payment.setLocationRelativeTo(null);
 
@@ -1657,14 +1688,13 @@ public class Main_Master extends javax.swing.JFrame {
             main_table.getModel().getValueAt(row, 3).toString();
             String rnum =
             main_table.getModel().getValueAt(row, 4).toString();
-            String rsize =
-            main_table.getModel().getValueAt(row, 5).toString();
             String am =
+            main_table.getModel().getValueAt(row, 5).toString();
+            String xtra =
             main_table.getModel().getValueAt(row, 6).toString();
             
-            
 
-           getDataToUpdate(id,date,day,visitor,rnum,rsize,am);
+           getDataToUpdate(id,date,day,visitor,rnum,xtra,am);
          for_update.setVisible(true);
           for_update.setLocationRelativeTo(null);  
           for_update.setTitle("UPDATE");
@@ -1856,8 +1886,8 @@ public class Main_Master extends javax.swing.JFrame {
         String date = display_date.getText();
         String day = (String) display_days.getSelectedItem();
         String visitor = display_visitors.getText();
-        String rnum = display_room.getText();
-        String rsize =  (String) display_rsize.getSelectedItem();
+        String rnum = (String) display_room.getSelectedItem();
+        String rsize =  (String) display_xtra_a.getSelectedItem();
         String am = (String) diplay_amenities.getSelectedItem();
 
        // double total = calculateTotal(day,am);
@@ -2080,6 +2110,10 @@ public class Main_Master extends javax.swing.JFrame {
         checkIfRoomAvailable();
     }//GEN-LAST:event_room_numberActionPerformed
 
+    private void update1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_update1ActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -2131,9 +2165,10 @@ public class Main_Master extends javax.swing.JFrame {
     private javax.swing.JTextField display_id;
     private javax.swing.JLabel display_id_payment;
     public javax.swing.JLabel display_name;
-    private javax.swing.JTextField display_room;
-    private javax.swing.JComboBox<String> display_rsize;
+    private javax.swing.JComboBox<String> display_room;
     private javax.swing.JTextField display_visitors;
+    private javax.swing.JTextField display_visitors1;
+    private javax.swing.JComboBox<String> display_xtra_a;
     private javax.swing.JDialog for_add_reservation;
     private javax.swing.JDialog for_payment;
     private javax.swing.JDialog for_update;
@@ -2156,6 +2191,7 @@ public class Main_Master extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
@@ -2203,6 +2239,7 @@ public class Main_Master extends javax.swing.JFrame {
     private javax.swing.JTextField search;
     private javax.swing.JPanel top_layer;
     private javax.swing.JButton update;
+    private javax.swing.JButton update1;
     private javax.swing.JPanel update_reservation;
     private javax.swing.JTextField visitors;
     private javax.swing.JComboBox<String> xtra_amenities;
