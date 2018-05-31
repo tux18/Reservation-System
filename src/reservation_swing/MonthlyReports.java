@@ -5,90 +5,17 @@
  */
 package reservation_swing;
 
-import com.mysql.jdbc.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import javax.swing.table.DefaultTableModel;
-
 /**
  *
- * @author tux
+ * @author T-Brother
  */
-public class Reports extends javax.swing.JFrame {
+public class MonthlyReports extends javax.swing.JFrame {
 
-    public ArrayList<SendReports> report_data()
-    {
-        
-        ArrayList<SendReports> report_data = new ArrayList<>();
-        try{
-         Class.forName("com.mysql.jdbc.Driver");
-                Connection conn = (Connection) DriverManager.getConnection(""
-                        + "jdbc:mysql://localhost:3306/reservation","root","");  
-            PreparedStatement query =  
-          conn.prepareStatement("SELECT * FROM reports");   
-            ResultSet set = query.executeQuery();
-            SendReports re;
-                while (set.next()){
-                    re = new SendReports(set.getString(1),set.getString(2),set.getString(3));
-                    
-                    
-                    report_data.add(re);
-                }
-                
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return report_data;
-        }
-    
-    
-     public void showTable(){
-       
-        
-        ArrayList<SendReports> list = report_data();
-        DefaultTableModel model = (DefaultTableModel) report_table.getModel();
-        Object[] row = new  Object[8];
-        
-        for (int i = 0; i < list.size();i++){
-            row[0] = list.get(i).getId();
-            row[1] = list.get(i).getDate();
-            row[2] = list.get(i).getTotal();
-           
-            
-            model.addRow(row);
-            
-        }
-    }
-    
-    public void displayTotal(){
-         
-         DefaultTableModel model = (DefaultTableModel) report_table.getModel();
-         int get_row = report_table.getRowCount();
-         int get_column = report_table.getColumnCount();
-         
-         System.out.println(get_row + "  " + get_column);
-         double total = 0.0;
-         double b = 0.0;
-         String get;
-         for(int x = 0;x < get_row;x++){
-             get = (String) model.getValueAt(x, 2);
-             total += Double.valueOf(get);
-         }
-         
-         display_income.setText(String.valueOf(total));
-         
-
-         //model.getValueAt(ERROR, NORMAL)
-    }
-    
-    public Reports() {
+    /**
+     * Creates new form MonthlyReports
+     */
+    public MonthlyReports() {
         initComponents();
-        this.setLocationRelativeTo(null);
-        this.setTitle("Report");
-        showTable();
-        displayTotal();
     }
 
     /**
@@ -108,17 +35,15 @@ public class Reports extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         display_income = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(22, 160, 133));
 
         jLabel1.setFont(new java.awt.Font("Lucida Sans", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Daily Reports");
+        jLabel1.setText("Monthly Reports");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -137,18 +62,16 @@ public class Reports extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
         report_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Date", "Total Balance"
+                "ID", "Month", "Date", "Total Balance"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, true, false
+                true, true, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -157,8 +80,6 @@ public class Reports extends javax.swing.JFrame {
         });
         report_table.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(report_table);
-
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 574, 299));
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel3.setText("Total Income:");
@@ -204,16 +125,51 @@ public class Reports extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 427, -1, -1));
+        jButton2.setText("jButton2");
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 104, 124, -1));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(504, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(63, 63, 63))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(30, 30, 30)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(40, 40, 40)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(485, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(41, 41, 41)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(8, 8, 8)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       this.dispose();
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -233,21 +189,20 @@ public class Reports extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Reports.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MonthlyReports.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Reports.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MonthlyReports.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Reports.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MonthlyReports.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Reports.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MonthlyReports.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Reports().setVisible(true);
+                new MonthlyReports().setVisible(true);
             }
         });
     }
@@ -255,8 +210,8 @@ public class Reports extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel display_income;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

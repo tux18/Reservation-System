@@ -21,7 +21,7 @@ import javax.swing.JDialog;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
 import javax.swing.table.TableRowSorter;
-
+import java.util.concurrent.TimeUnit;
 
 public class Main_Master extends javax.swing.JFrame {
     
@@ -298,16 +298,47 @@ public class Main_Master extends javax.swing.JFrame {
     public void getDataToUpdate(String id, String date, String day, 
       String visitor, String room_num, String xtra,String amen ){
         
+        boolean flag = false;
+        String get_status = "";
+       try{
+            Class.forName("com.mysql.jdbc.Driver");
+                Connection conn = (Connection) DriverManager.getConnection(""
+                    + "jdbc:mysql://localhost:3306/reservation","root","");
+                
+                
+                PreparedStatement query =  conn.prepareStatement(
+                "SELECT room_num,person_per_room,status FROM room_number");
+                ResultSet set = query.executeQuery();
+               
+                while(set.next()){
+                    if(room_num.equals(set.getString(1))){
+                        get_status = set.getString(3);
+                    }
+                }
+       }catch(Exception e){
+           e.printStackTrace();
+       }
+        
+        
+//       if(get_status.equals("Available")){
+//           display_room.setSelectedItem(room_num);
+//           display_room.setEnabled(false);
+//       }else if (get_status.equals("Reserved")){
+//            display_room.setSelectedItem(room_num);
+//           display_room.setEnabled(true);
+//       }
+        
+        
         display_date.setText(date);
         
-        display_room.setSelectedItem(room_num);
+          display_room.setSelectedItem(room_num);
         display_id.setText(id);
         display_visitors.setText(visitor);
         // COMBOBOX
         display_xtra_a.setSelectedItem(xtra);
         display_days.setSelectedItem(day);
         diplay_amenities.setSelectedItem(amen);
-      
+        display_status.setText(get_status);
     }
   
     
@@ -338,7 +369,7 @@ public class Main_Master extends javax.swing.JFrame {
                 PreparedStatement query =  conn.prepareStatement(
                 "SELECT room_num,person_per_room,status FROM room_number");
                 ResultSet set = query.executeQuery();
-                System.out.println("qweqweqwe");
+               
                 
                 while(set.next()){
                     if (set.getString(1).equals(get_rnumber) && set.getString(3).equals("Available")){
@@ -369,6 +400,61 @@ public class Main_Master extends javax.swing.JFrame {
         if (flag != false){
              visitors.setText(rvisitor);
             room_status.setText(rstatus);
+            display_visitors.setText(rvisitor);
+            display_status.setText(rstatus);
+            //JOptionPane.showMessageDialog(for_add_reservation, rnum + " is not available","Room Status",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    
+    public void updateAndCheckRoom(){
+        
+         String get_rnumber = (String) display_room.getSelectedItem();
+        String get_rstatus = room_status.getText();
+        boolean flag = false;
+        String rnum = "";
+        String rvisitor = "";
+        String rstatus = "";
+        try{
+             Class.forName("com.mysql.jdbc.Driver");
+                Connection conn = (Connection) DriverManager.getConnection(""
+                    + "jdbc:mysql://localhost:3306/reservation","root","");
+                
+                
+                PreparedStatement query =  conn.prepareStatement(
+                "SELECT room_num,person_per_room,status FROM room_number");
+                ResultSet set = query.executeQuery();
+               
+                
+                while(set.next()){
+                    if (set.getString(1).equals(get_rnumber) && set.getString(3).equals("Available")){
+                        System.out.println(set.getString(1));
+                       rnum = set.getString(1);
+                       rvisitor = set.getString(2);
+                       rstatus = set.getString(3);
+                        flag = true;
+                    }else if(set.getString(1).equals(get_rnumber) && set.getString(3).equals("Under Renovation")){
+                      rnum = set.getString(1);
+                       rvisitor = set.getString(2);
+                       rstatus = set.getString(3);
+                        flag = true;
+                    }else if(set.getString(1).equals(get_rnumber) && set.getString(3).equals("Reserved")){
+                      rnum = set.getString(1);
+                       rvisitor = set.getString(2);
+                       rstatus = set.getString(3);
+                        flag = true;
+                    }
+                }
+     
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        
+        if (flag != false){
+          
+            display_visitors.setText(rvisitor);
+            display_status.setText(rstatus);
             //JOptionPane.showMessageDialog(for_add_reservation, rnum + " is not available","Room Status",JOptionPane.INFORMATION_MESSAGE);
         }
     }
@@ -377,7 +463,6 @@ public class Main_Master extends javax.swing.JFrame {
     public Main_Master() {
         
         
-       
         initComponents();
         this.setLocationRelativeTo(null);
         jScrollPane2.getViewport().setBackground(Color.white);
@@ -386,13 +471,13 @@ public class Main_Master extends javax.swing.JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         for_add_reservation.setLocationRelativeTo(null);
-        for_add_reservation.setSize(550,650);
+        for_add_reservation.setSize(550,590);
         
         for_update.setLocationRelativeTo(null);
         for_update.setSize(694, 497);
         
      
-        for_payment.setSize(415, 620);
+        for_payment.setSize(415, 520);
         
         
         showTable();
@@ -450,14 +535,14 @@ public class Main_Master extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         update = new javax.swing.JButton();
         back = new javax.swing.JButton();
-        update1 = new javax.swing.JButton();
+        cancel_reserve = new javax.swing.JButton();
         display_id = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
         diplay_amenities = new javax.swing.JComboBox<>();
         jLabel29 = new javax.swing.JLabel();
         display_days = new javax.swing.JComboBox<>();
         display_room = new javax.swing.JComboBox<>();
-        display_visitors1 = new javax.swing.JTextField();
+        display_status = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         for_payment = new javax.swing.JDialog();
         jPanel8 = new javax.swing.JPanel();
@@ -471,19 +556,14 @@ public class Main_Master extends javax.swing.JFrame {
         jLabel34 = new javax.swing.JLabel();
         get_total_payment = new javax.swing.JLabel();
         jLabel36 = new javax.swing.JLabel();
-        jLabel37 = new javax.swing.JLabel();
         jLabel38 = new javax.swing.JLabel();
         get_bill_payment = new javax.swing.JLabel();
-        display_change = new javax.swing.JLabel();
-        compute = new javax.swing.JButton();
         payment_cancel = new javax.swing.JButton();
         process = new javax.swing.JButton();
         top_layer = new javax.swing.JPanel();
         panel_left = new javax.swing.JPanel();
         add_reservation = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        cancel_reservation = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
         update_reservation = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         payments = new javax.swing.JPanel();
@@ -517,6 +597,7 @@ public class Main_Master extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setMinimumSize(new java.awt.Dimension(570, 520));
         jPanel3.setPreferredSize(new java.awt.Dimension(530, 500));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel4.setBackground(new java.awt.Color(22, 160, 133));
 
@@ -543,7 +624,7 @@ public class Main_Master extends javax.swing.JFrame {
             .addGroup(addLayout.createSequentialGroup()
                 .addGap(95, 95, 95)
                 .addComponent(jLabel15)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         addLayout.setVerticalGroup(
             addLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -581,10 +662,10 @@ public class Main_Master extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(add, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(155, 155, 155)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -597,31 +678,46 @@ public class Main_Master extends javax.swing.JFrame {
                 .addGap(18, 18, 18))
         );
 
-        generated_id.setEnabled(false);
+        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 292, 539, -1));
+
+        generated_id.setEditable(false);
+        jPanel3.add(generated_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 29, 242, 29));
 
         jLabel17.setText("Generated ID");
+        jPanel3.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 12, -1, -1));
 
         jLabel19.setText("Date   (MMM--DDD--YYY)");
+        jPanel3.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(274, 12, -1, -1));
 
         jLabel20.setText("Day or Hours of Staying");
+        jPanel3.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 159, -1, -1));
 
         jLabel21.setText("Room Number");
+        jPanel3.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 83, -1, -1));
 
         amenities.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No Amenities", "Package 1", "Package 2", "Package 3", "Package 4" }));
+        jPanel3.add(amenities, new org.netbeans.lib.awtextra.AbsoluteConstraints(274, 178, 237, 29));
 
-        jLabel23.setText("Amenities(FOOD PACKAGE + UTILITIE PACKAGE)");
+        jLabel23.setText("Amenities(FOOD PACKAGE)");
+        jPanel3.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 160, -1, -1));
 
-        visitors.setEnabled(false);
+        visitors.setEditable(false);
+        jPanel3.add(visitors, new org.netbeans.lib.awtextra.AbsoluteConstraints(274, 103, 237, 29));
 
         jLabel24.setText("Number of Visitors");
+        jPanel3.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(274, 83, -1, -1));
 
         days.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 Hour", "2 Hour", "3 Hour", "4 Hour", "5 Hour", "6 Hour", "7 Hour", "8 Hour", "9 Hour", "10 Hour", "11 Hour", "12 Hour", "13 Hour", "14 Hour", "15 Hour", "16 Hour", "17 Hour", "18 Hour", "19 Hour", "20 Hour", "21 Hour", "22 Hour", "23 Hour", "24 Hour (1 Day)", "2 Day", "3 Day", "4 Day", "5 Day", "7 Day", "10 Day", "20 Day", "30 Day" }));
+        jPanel3.add(days, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 178, 242, 29));
 
-        generated_date.setEnabled(false);
+        generated_date.setEditable(false);
+        jPanel3.add(generated_date, new org.netbeans.lib.awtextra.AbsoluteConstraints(274, 29, 237, 29));
 
         xtra_amenities.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No Extra Amenities", "1 Blanket", "2 Blanket", "3 Blanket", "4 Blanket", "5 Blanket", "1 Pillow", "2 Pillow", "3 Pillow", "4 Pillow", "5 Pillow", "UP 1", "UP 2", "UP 3" }));
+        jPanel3.add(xtra_amenities, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 245, 237, 29));
 
         jLabel32.setText("Extra Amenities (UTILITIES)");
+        jPanel3.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 226, -1, -1));
 
         room_number.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Room Number", "Room 1", "Room 2", "Room 3", "Room 4", "Room 5", "Room 6", "Room 7", "Room 8", "Room 9", "Room 10", "Room 11", "Room 12", "Room 13", "Room 14", "Room 15" }));
         room_number.addActionListener(new java.awt.event.ActionListener() {
@@ -629,95 +725,14 @@ public class Main_Master extends javax.swing.JFrame {
                 room_numberActionPerformed(evt);
             }
         });
+        jPanel3.add(room_number, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 103, 242, 29));
 
-        room_status.setEnabled(false);
+        room_status.setEditable(false);
+        room_status.setForeground(new java.awt.Color(255, 0, 0));
+        jPanel3.add(room_status, new org.netbeans.lib.awtextra.AbsoluteConstraints(274, 245, 237, 29));
 
         jLabel35.setText("Room Status");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel17)
-                .addGap(195, 195, 195)
-                .addComponent(jLabel19))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(generated_id, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(generated_date, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabel21)
-                .addGap(197, 197, 197)
-                .addComponent(jLabel24))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(room_number, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(visitors, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel20)
-                .addGap(145, 145, 145)
-                .addComponent(jLabel23))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(days, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(amenities, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel32)
-                .addGap(126, 126, 126)
-                .addComponent(jLabel35))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(xtra_amenities, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
-                .addComponent(room_status, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel17)
-                    .addComponent(jLabel19))
-                .addGap(3, 3, 3)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(generated_id, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(generated_date, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel21)
-                    .addComponent(jLabel24))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(room_number, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(visitors, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel20)
-                    .addComponent(jLabel23))
-                .addGap(5, 5, 5)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(days, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(amenities, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel32)
-                    .addComponent(jLabel35))
-                .addGap(5, 5, 5)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(xtra_amenities, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(room_status, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        jPanel3.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(274, 226, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(22, 160, 133));
 
@@ -758,15 +773,18 @@ public class Main_Master extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        for_update.setTitle("Payments");
+        for_update.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        for_update.setTitle("Update");
+        for_update.setModal(false);
+        for_update.setModalExclusionType(java.awt.Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
 
-        display_date.setEnabled(false);
+        display_date.setEditable(false);
 
         jLabel11.setText("Existing Date");
 
         jLabel12.setText("Existing Room Number");
 
-        display_visitors.setEnabled(false);
+        display_visitors.setEditable(false);
 
         jLabel18.setText("Existing # of Visitors");
 
@@ -801,7 +819,8 @@ public class Main_Master extends javax.swing.JFrame {
 
         jPanel7.setBackground(new java.awt.Color(22, 160, 133));
 
-        update.setBackground(new java.awt.Color(0, 255, 0));
+        update.setBackground(new java.awt.Color(39, 174, 96));
+        update.setForeground(new java.awt.Color(255, 255, 255));
         update.setText("UPDATE");
         update.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -816,12 +835,12 @@ public class Main_Master extends javax.swing.JFrame {
             }
         });
 
-        update1.setBackground(new java.awt.Color(255, 51, 51));
-        update1.setForeground(new java.awt.Color(255, 255, 255));
-        update1.setText("Cancel Reservation");
-        update1.addActionListener(new java.awt.event.ActionListener() {
+        cancel_reserve.setBackground(new java.awt.Color(255, 51, 51));
+        cancel_reserve.setForeground(new java.awt.Color(255, 255, 255));
+        cancel_reserve.setText("Cancel Reservation");
+        cancel_reserve.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                update1ActionPerformed(evt);
+                cancel_reserveActionPerformed(evt);
             }
         });
 
@@ -832,7 +851,7 @@ public class Main_Master extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(226, 226, 226)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(update1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancel_reserve, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(update, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -843,8 +862,8 @@ public class Main_Master extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(update, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(update1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addComponent(cancel_reserve, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(back)
                 .addContainerGap())
         );
@@ -860,8 +879,13 @@ public class Main_Master extends javax.swing.JFrame {
         display_days.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 Hour", "2 Hour", "3 Hour", "4 Hour", "5 Hour", "6 Hour", "7 Hour", "8 Hour", "9 Hour", "10 Hour", "11 Hour", "12 Hour", "13 Hour", "14 Hour", "15 Hour", "16 Hour", "17 Hour", "18 Hour", "19 Hour", "20 Hour", "21 Hour", "22 Hour", "23 Hour", "24 Hour (1 Day)", "2 Day", "3 Day", "4 Day", "5 Day", "7 Day", "10 Day", "20 Day", "30 Day" }));
 
         display_room.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Room Number", "Room 1", "Room 2", "Room 3", "Room 4", "Room 5", "Room 6", "Room 7", "Room 8", "Room 9", "Room 10", "Room 11", "Room 12", "Room 13", "Room 14", "Room 15" }));
+        display_room.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                display_roomActionPerformed(evt);
+            }
+        });
 
-        display_visitors1.setEnabled(false);
+        display_status.setEditable(false);
 
         jLabel22.setText("Room Status");
 
@@ -896,7 +920,7 @@ public class Main_Master extends javax.swing.JFrame {
                             .addComponent(display_xtra_a, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(display_room, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel22)
-                    .addComponent(display_visitors1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(display_status, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45))
         );
         for_updateLayout.setVerticalGroup(
@@ -939,7 +963,7 @@ public class Main_Master extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, for_updateLayout.createSequentialGroup()
                         .addComponent(jLabel22)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(display_visitors1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(display_status, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
@@ -1002,6 +1026,11 @@ public class Main_Master extends javax.swing.JFrame {
         jLabel33.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel33.setText("Customer Payment");
 
+        bill.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                billActionPerformed(evt);
+            }
+        });
         bill.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 billKeyReleased(evt);
@@ -1019,9 +1048,6 @@ public class Main_Master extends javax.swing.JFrame {
         jLabel36.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel36.setText("PHP");
 
-        jLabel37.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel37.setText("Change");
-
         jLabel38.setFont(new java.awt.Font("Dialog", 0, 36)); // NOI18N
         jLabel38.setForeground(new java.awt.Color(255, 0, 0));
         jLabel38.setText("-");
@@ -1030,20 +1056,6 @@ public class Main_Master extends javax.swing.JFrame {
         get_bill_payment.setForeground(new java.awt.Color(255, 0, 0));
         get_bill_payment.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         get_bill_payment.setText("0.0");
-
-        display_change.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        display_change.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        display_change.setText("0.0");
-
-        compute.setBackground(new java.awt.Color(153, 255, 153));
-        compute.setText("Compute");
-        compute.setBorderPainted(false);
-        compute.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        compute.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                computeActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -1058,26 +1070,18 @@ public class Main_Master extends javax.swing.JFrame {
                         .addComponent(bill, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30))
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(jLabel37)
-                                .addGap(114, 114, 114)
-                                .addComponent(display_change, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel10Layout.createSequentialGroup()
                                 .addComponent(jLabel38)
                                 .addGap(28, 28, 28)
                                 .addComponent(get_bill_payment, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel10Layout.createSequentialGroup()
                                 .addComponent(jLabel34)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(80, 80, 80)
                                 .addComponent(jLabel36)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(get_total_payment, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(96, 96, 96)
-                .addComponent(compute, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1095,13 +1099,7 @@ public class Main_Master extends javax.swing.JFrame {
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(get_bill_payment)
                     .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(display_change))
-                .addGap(18, 18, 18)
-                .addComponent(compute, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                .addContainerGap())
         );
 
         payment_cancel.setBackground(new java.awt.Color(153, 255, 153));
@@ -1159,11 +1157,11 @@ public class Main_Master extends javax.swing.JFrame {
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(process, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(payment_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -1213,42 +1211,6 @@ public class Main_Master extends javax.swing.JFrame {
 
         panel_left.add(add_reservation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 208, 248, -1));
 
-        cancel_reservation.setBackground(new java.awt.Color(0, 121, 107));
-        cancel_reservation.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cancel_reservationMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                cancel_reservationMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                cancel_reservationMouseExited(evt);
-            }
-        });
-
-        jLabel5.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Cancel Reservation");
-
-        javax.swing.GroupLayout cancel_reservationLayout = new javax.swing.GroupLayout(cancel_reservation);
-        cancel_reservation.setLayout(cancel_reservationLayout);
-        cancel_reservationLayout.setHorizontalGroup(
-            cancel_reservationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(cancel_reservationLayout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(jLabel5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        cancel_reservationLayout.setVerticalGroup(
-            cancel_reservationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cancel_reservationLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        panel_left.add(cancel_reservation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 265, 248, -1));
-
         update_reservation.setBackground(new java.awt.Color(0, 121, 107));
         update_reservation.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1283,7 +1245,7 @@ public class Main_Master extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panel_left.add(update_reservation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 322, -1, -1));
+        panel_left.add(update_reservation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, -1, -1));
 
         payments.setBackground(new java.awt.Color(0, 121, 107));
         payments.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1319,7 +1281,7 @@ public class Main_Master extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panel_left.add(payments, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 379, 248, -1));
+        panel_left.add(payments, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 248, -1));
 
         logout.setBackground(new java.awt.Color(0, 121, 107));
         logout.setFocusCycleRoot(true);
@@ -1394,7 +1356,7 @@ public class Main_Master extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panel_left.add(sales, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 436, 248, -1));
+        panel_left.add(sales, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 248, -1));
 
         jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel27.setIcon(new javax.swing.ImageIcon("C:\\Users\\T-Brother\\Desktop\\Reservation-System\\src\\images\\images(0).jpeg")); // NOI18N
@@ -1588,15 +1550,6 @@ public class Main_Master extends javax.swing.JFrame {
         add_reservation.setBackground(new Color(0,121,107));
     }//GEN-LAST:event_add_reservationMouseExited
 
-    private void cancel_reservationMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancel_reservationMouseEntered
-        cancel_reservation.setBackground(new Color(0,150,136));
-        cancel_reservation.setCursor(Cursor.getPredefinedCursor(HAND_CURSOR));
-    }//GEN-LAST:event_cancel_reservationMouseEntered
-
-    private void cancel_reservationMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancel_reservationMouseExited
-        cancel_reservation.setBackground(new Color(0,121,107));
-    }//GEN-LAST:event_cancel_reservationMouseExited
-
     private void add_reservationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_reservationMouseClicked
 
         Random rand = new Random();
@@ -1614,60 +1567,7 @@ public class Main_Master extends javax.swing.JFrame {
 
     }//GEN-LAST:event_add_reservationMouseClicked
 
-    private void cancel_reservationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancel_reservationMouseClicked
-        
-        
-        
-        int selected = main_table.getSelectedRowCount();
-        
-         if(selected != 0){
-             
-            DefaultTableModel model = (DefaultTableModel) main_table.getModel();
-            int column = 0;
-
-
-            int row = main_table.getSelectedRow();  
-
-            String get_id =
-            main_table.getModel().getValueAt(row, column).toString();
-        
-       
-        try{
-            
-           Class.forName("com.mysql.jdbc.Driver");
-           Connection conn = (Connection) DriverManager.getConnection(""
-           + "jdbc:mysql://localhost:3306/reservation","root","");  
-           
-           PreparedStatement query =  
-          conn.prepareStatement("DELETE FROM room_reserve WHERE ID = " + "'" + get_id +"'"); 
-           query.execute();
-           model.removeRow(row);
-            JOptionPane.showMessageDialog(null, "Cancel Successfully","CANCEL",JOptionPane.INFORMATION_MESSAGE);
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Select in the Table to Cancel","CANCEL",JOptionPane.INFORMATION_MESSAGE);
-            e.printStackTrace();
-        }
-        
-        System.out.print(get_id);
-             
-        }else{
-             JOptionPane.showMessageDialog(null, "Select in the Table to CANCEL","CANCEL",JOptionPane.INFORMATION_MESSAGE);
-        }
-         
-        /**
-         The User must click in the Table to delete the data that has been click
-         * The Deletion can deleted a multiple lines in the table(optional)
-         * Error Catching for not being able to click in the table
-         * Make a Confirmation Button(Dialog Box) in order to proceed 
-         * 
-         * LINK: 
-         **/
-        
-       
-        
-        
-    }//GEN-LAST:event_cancel_reservationMouseClicked
-
+    String global_rnum = "";
     private void update_reservationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_update_reservationMouseClicked
         // TODO add your handling code here:
         // UPDATE
@@ -1693,11 +1593,12 @@ public class Main_Master extends javax.swing.JFrame {
             String xtra =
             main_table.getModel().getValueAt(row, 6).toString();
             
-
+            global_rnum = rnum;
            getDataToUpdate(id,date,day,visitor,rnum,xtra,am);
          for_update.setVisible(true);
           for_update.setLocationRelativeTo(null);  
           for_update.setTitle("UPDATE");
+          
         }else{
            JOptionPane.showMessageDialog(null, "Select in the Table to Update","UPDATE",JOptionPane.INFORMATION_MESSAGE);  
         }
@@ -1830,7 +1731,12 @@ public class Main_Master extends javax.swing.JFrame {
                                     "'" + amenities_selected +"'"+ "," + "'" + get_xtra_amenities + "'" + "," +
                                             "'" + total + "'"+")");
                  
+                 
+                 PreparedStatement query2 =  conn.prepareStatement("UPDATE room_number SET status = " + 
+                         "'" + "Reserved" +"'" + "WHERE room_num = " + "'" + get_room_number + "'" );
                  query.execute();
+                 query2.execute();
+                 
                  JOptionPane.showMessageDialog(for_add_reservation, "Added Successfully","Add",
                          JOptionPane.INFORMATION_MESSAGE);
                  
@@ -1876,10 +1782,7 @@ public class Main_Master extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelMouseEntered
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
-        // TODO add your handling code here:
-        /**
-        *  NOT FIX: NOT REFRESHING THE JTABLE
-        */
+      
         
         
         String id = display_id.getText();
@@ -1887,12 +1790,19 @@ public class Main_Master extends javax.swing.JFrame {
         String day = (String) display_days.getSelectedItem();
         String visitor = display_visitors.getText();
         String rnum = (String) display_room.getSelectedItem();
-        String rsize =  (String) display_xtra_a.getSelectedItem();
+        String xtra =  (String) display_xtra_a.getSelectedItem();
         String am = (String) diplay_amenities.getSelectedItem();
-
-       // double total = calculateTotal(day,am);
-
-        if(id.equals("") && date.equals("") && visitor.equals("")
+        String get = display_status.getText();
+        String temp_room_num = rnum;
+       double total = calculateTotal(day,am,xtra,rnum);
+       
+       
+       
+       if(get.equals("Reserved")){
+         JOptionPane.showMessageDialog(null,rnum + " this room is already reserved","RESERVE",
+                JOptionPane.INFORMATION_MESSAGE);  
+       }else{
+          if(id.equals("") && date.equals("") && visitor.equals("")
             && rnum.equals("")){
 
             JOptionPane.showMessageDialog(null, "Please Input the Missing Fields","FIELDS",
@@ -1903,16 +1813,27 @@ public class Main_Master extends javax.swing.JFrame {
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection conn = (Connection) DriverManager.getConnection(""
                     + "jdbc:mysql://localhost:3306/reservation","root","");
+                
+                 PreparedStatement query1 =  conn.prepareStatement(
+                 "UPDATE room_number SET status = " + "'" + "Available" + "'" +
+                         " WHERE room_num = " + "'" + global_rnum + "'");
+                
                 PreparedStatement query =  conn.prepareStatement(
                     "UPDATE room_reserve SET ID = " + "'" + id + "'" + "," + "date = " +
                     "'" + date + "'" + "," + "days = " + "'" + day + "'" + "," +
                     "visitors = " + "'" + visitor +"'" + "," + "room_number = " +
-                    "'" + rnum +"'" + "," + "room_size = " + "'" + rsize+ "'" + "," +
-                    "amenities = " + "'" + am + "'" + "," + "total = " + "'" + "test" + "'"+
+                    "'" + rnum +"'" + "," + "amenities = " + "'" + am + "'" + "," +
+                    "xtra_amenities = " + "'" + xtra + "'" + "," + "total = " + "'" + total + "'"+
                     "WHERE ID = " + "'" + id + "'" );
                     
-                query.execute();
                 
+                PreparedStatement query2 =  conn.prepareStatement(
+                 "UPDATE room_number SET status = " + "'" + "Reserved" + "'" +
+                         " WHERE room_num = " + "'" + rnum + "'");
+                
+                query.execute();
+                query1.execute();
+                query2.execute();
                 JOptionPane.showMessageDialog(null, "Successfully Updated","UPDATED",
                     JOptionPane.INFORMATION_MESSAGE);
                 
@@ -1920,13 +1841,20 @@ public class Main_Master extends javax.swing.JFrame {
                   
                  model.setRowCount(0);
                  showTable();
-               
+               for_update.dispose();
             }catch(Exception e){
                 e.printStackTrace();
             }
 
         }
-
+          
+          
+    }
+       
+       
+        
+        
+        global_rnum = "";
     }//GEN-LAST:event_updateActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
@@ -1934,23 +1862,6 @@ public class Main_Master extends javax.swing.JFrame {
         for_update.dispose();
 
     }//GEN-LAST:event_backActionPerformed
-
-    private void computeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_computeActionPerformed
-        double get_bill = Double.valueOf(get_bill_payment.getText());
-        double get_total = Double.valueOf(get_total_payment.getText());
-        double total_change = 0.0;
-        
-        if(get_total < get_bill ){
-            total_change = get_bill - get_total;
-            display_change.setText(String.valueOf(total_change));
-        }else{
-             JOptionPane.showMessageDialog(null, "Not enough Funds..","Compute",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }
-        
-        
-        display_change.setText(String.valueOf(total_change));
-    }//GEN-LAST:event_computeActionPerformed
 
     private void payment_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payment_cancelActionPerformed
         for_payment.dispose();
@@ -1962,8 +1873,19 @@ public class Main_Master extends javax.swing.JFrame {
         // make a MessageDialog that will tell
         // if it is insufficient fundds2
         
-        DefaultTableModel model = (DefaultTableModel) main_table.getModel();
-        String get_change = display_change.getText();
+       
+          
+         double get_bill = Double.valueOf(get_bill_payment.getText());
+        double get_total = Double.valueOf(get_total_payment.getText());
+        double total_change = 0.0;
+        
+        if(get_total < get_bill ){
+            total_change = get_bill - get_total;
+            
+             JOptionPane.showMessageDialog(null,"Total Change: " + total_change,"CHANGE",JOptionPane.INFORMATION_MESSAGE);
+            
+             DefaultTableModel model = (DefaultTableModel) main_table.getModel();
+      
         int row = main_table.getSelectedRow();
            String get_id =
             main_table.getModel().getValueAt(row, 0).toString();
@@ -1971,10 +1893,7 @@ public class Main_Master extends javax.swing.JFrame {
             main_table.getModel().getValueAt(row, 1).toString();
                String total = get_total_payment.getText();
          
-        if ("0.0".equals(get_change)){
-            JOptionPane.showMessageDialog(null, "Please Check the Change First","Check",JOptionPane.INFORMATION_MESSAGE);
-        }else{
-            
+       
            try{
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection conn = (Connection) DriverManager.getConnection(""
@@ -1991,20 +1910,29 @@ public class Main_Master extends javax.swing.JFrame {
                 
                 
                 JOptionPane.showMessageDialog(null, "Payment Complete","Success",JOptionPane.INFORMATION_MESSAGE);
-               
-                
-                
-    
-                
-                
+                                 
                 for_payment.dispose();
                 
            }catch(Exception e){
                 JOptionPane.showMessageDialog(null, "ERROR: Something went wrong","ERROR",JOptionPane.ERROR_MESSAGE);
                 e.printStackTrace();
            }
-            
+           
+        }else{
+            JOptionPane.showMessageDialog(null, "Insufficient Funds...","TOTAL",JOptionPane.INFORMATION_MESSAGE);
         }
+     
+        
+        
+        
+        
+        
+        
+        
+        
+       
+            
+        
         
         
         
@@ -2013,6 +1941,10 @@ public class Main_Master extends javax.swing.JFrame {
     private void billKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_billKeyReleased
         String get = bill.getText();
         get_bill_payment.setText(get);
+        
+        
+       
+        
     }//GEN-LAST:event_billKeyReleased
 
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
@@ -2026,7 +1958,7 @@ public class Main_Master extends javax.swing.JFrame {
        
         
        String a = JOptionPane.showInputDialog("Enter New Username: ",JOptionPane.OK_CANCEL_OPTION);
-        System.out.println(a);
+      
         
         
         String get = display_name.getText();
@@ -2071,10 +2003,7 @@ public class Main_Master extends javax.swing.JFrame {
          String a = JOptionPane.showInputDialog("Enter New Password: ",JOptionPane.OK_CANCEL_OPTION);
         System.out.println(a);
         
-        
-        
-        
-        
+   
         if(a != null){
          
             
@@ -2110,9 +2039,64 @@ public class Main_Master extends javax.swing.JFrame {
         checkIfRoomAvailable();
     }//GEN-LAST:event_room_numberActionPerformed
 
-    private void update1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update1ActionPerformed
+    private void cancel_reserveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel_reserveActionPerformed
+        
+        
+        
+        String get_room = (String) display_room.getSelectedItem();
+        int selected = main_table.getSelectedRowCount();
+        
+         if(selected != 0){
+             
+            DefaultTableModel model = (DefaultTableModel) main_table.getModel();
+            int column = 0;
+
+
+            int row = main_table.getSelectedRow();  
+
+            String get_id =
+            main_table.getModel().getValueAt(row, column).toString();
+        
+       
+        try{
+            
+           Class.forName("com.mysql.jdbc.Driver");
+           Connection conn = (Connection) DriverManager.getConnection(""
+           + "jdbc:mysql://localhost:3306/reservation","root","");  
+           
+           PreparedStatement query =  
+          conn.prepareStatement("DELETE FROM room_reserve WHERE ID = " + "'" + get_id +"'"); 
+           
+           PreparedStatement query2 =  
+          conn.prepareStatement("UPDATE room_number SET status = " + "'" + "Available" + "'"
+           + "WHERE room_num = "+ "'" + get_room +"'" ); 
+           
+           query.execute();
+           query2.execute();
+           model.removeRow(row);
+            JOptionPane.showMessageDialog(null, "Cancel Successfully","CANCEL",JOptionPane.INFORMATION_MESSAGE);
+            for_update.dispose();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Select in the Table to Cancel","CANCEL",JOptionPane.INFORMATION_MESSAGE);
+            e.printStackTrace();
+        }
+        
+        System.out.print(get_id);
+             
+        }else{
+             JOptionPane.showMessageDialog(null, "Select in the Table to CANCEL","CANCEL",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_cancel_reserveActionPerformed
+
+    private void display_roomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_display_roomActionPerformed
+        
+      updateAndCheckRoom();
+        
+    }//GEN-LAST:event_display_roomActionPerformed
+
+    private void billActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_billActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_update1ActionPerformed
+    }//GEN-LAST:event_billActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -2153,21 +2137,19 @@ public class Main_Master extends javax.swing.JFrame {
     private javax.swing.JButton back;
     private javax.swing.JTextField bill;
     private javax.swing.JPanel cancel;
-    private javax.swing.JPanel cancel_reservation;
+    private javax.swing.JButton cancel_reserve;
     private javax.swing.JButton change_password;
     private javax.swing.JButton change_username;
-    private javax.swing.JButton compute;
     private javax.swing.JComboBox<String> days;
     private javax.swing.JComboBox<String> diplay_amenities;
-    private javax.swing.JLabel display_change;
     private javax.swing.JTextField display_date;
     private javax.swing.JComboBox<String> display_days;
     private javax.swing.JTextField display_id;
     private javax.swing.JLabel display_id_payment;
     public javax.swing.JLabel display_name;
     private javax.swing.JComboBox<String> display_room;
+    private javax.swing.JTextField display_status;
     private javax.swing.JTextField display_visitors;
-    private javax.swing.JTextField display_visitors1;
     private javax.swing.JComboBox<String> display_xtra_a;
     private javax.swing.JDialog for_add_reservation;
     private javax.swing.JDialog for_payment;
@@ -2207,10 +2189,8 @@ public class Main_Master extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
-    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -2239,7 +2219,6 @@ public class Main_Master extends javax.swing.JFrame {
     private javax.swing.JTextField search;
     private javax.swing.JPanel top_layer;
     private javax.swing.JButton update;
-    private javax.swing.JButton update1;
     private javax.swing.JPanel update_reservation;
     private javax.swing.JTextField visitors;
     private javax.swing.JComboBox<String> xtra_amenities;
